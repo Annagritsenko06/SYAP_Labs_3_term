@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //1
+        let circle = {
+            shape: "circle"
+        };
+        let greencircle = {
+            color: "green",
+            __proto__: circle
+        };
+        console.log("для кругов:");
+        for (let prop in greencircle) {
+            let isOwn = greencircle.hasOwnProperty(prop);
+
+            if (isOwn) {
+                console.log(`Our for greencircle: ${prop}`); 
+            } else {
+                console.log(`Inherited: ${prop}`); 
+            }
+        }
+        let square = {
+            shape: "square",
+            color: "yellow", 
+            size: "big"
+        }
+        small_square = {
+            __proto__: square,
+            size: "small"
+        }
+        console.log("для квадратов:");
+        for (let prop in small_square) {
+            let isOwn = small_square.hasOwnProperty(prop);
+
+            if (isOwn) {
+                console.log(`Our for mall_square: ${prop}`); 
+            } else {
+                console.log(`Inherited: ${prop}`); 
+            }
+        }
+        console.log(small_square.size);
+        let triangle = {
+            shape: "triangle",
+            line: 1
+        }
+        let sec_triangle = {
+            __proto__: triangle,
+            line: 3
+        }
+        console.log("для треугольников:");
+        for (let prop in sec_triangle) {
+            let isOwn = sec_triangle.hasOwnProperty(prop);
+
+            if (isOwn) {
+                console.log(`Our for triangle with 3 lines: ${prop}`); 
+            } else {
+                console.log(`Inherited: ${prop}`); 
+            }
+        }
+        //2
+        class Human {
+            constructor(Name, Surname, Age, Adress, Year) {
+                this.name = Name;
+                this.surname = Surname;
+                this.age = Age;
+                this.adress = Adress;
+                this.year = Year;
+            }
+            changeAge(newAge) {
+                if (newAge > 0) {
+                    this.age = newAge;
+                }
+                else console.log("Вы ввели отрицательное значеник...")
+            }
+            changeAdress(newAdress) {
+                this.adress = newAdress;
+            }
+            get ageByYear() {
+                return `Возраст: ${2024 - this.year}`;
+            }
+            set ageByYear(Ag) {
+                this.age = Ag;
+            }
+        }
+        class Student extends Human {
+            constructor(name, surname, age, adress, year, Faculty, Course, Group, NumberOfRecordBook) {
+                super(name, surname, age, adress, year);
+                this.faculty = Faculty;
+                this.course = Course;
+                this.group = Group;
+                this.numberOfRecordBook = NumberOfRecordBook;
+            }
+            changeCourse(newCourse) {
+                if (newCourse > 0 && newCourse < 6) {
+                    this.course = newCourse;
+                }
+                else console.log("неправильный ввод поля Курс...")
+            }
+            changeGroup(newGroup) {
+                if (newGroup > 0) {
+                    this.group = newGroup;
+                }
+                else console.log("неправильный ввод поля Группа...")
+            }
+            getFullName() {
+                console.log(`Полное имя студента: ${this.name} ${this.surname}`);
+            }
+            getSpecialtyCode() {
+
+                const numberString = this.numberOfRecordBook.toString();
+                return parseInt(numberString.charAt(1), 10);
+
+            }
+            getGroupCode() {
+                return this.group;
+            }
+        }
+        class Faculty {
+            constructor(NameOfFaculty, NumberofGroups, NumberOfStudents) {
+                this.nameOfFaculty = NameOfFaculty;
+                this.numberofGroups = NumberofGroups;
+                this.numberOfStudents = NumberOfStudents;
+                this.students = [];
+            }
+            addStudent(student) {
+                if (student instanceof Student) {
+                    this.students.push(student);
+                    this.numberofGroups++;
+                }
+            }
+            changeNumberofGroups(newN) {
+                if (newN > 0) {
+                    this.numberofGroups = newN;
+                }
+                else console.log("неправильный ввод поля Количество групп...")
+
+            }
+            changeNumberofStudents(newS) {
+                if (newS > 0) {
+                    this.numberOfStudents = newS;
+                }
+                else console.log("неправильный ввод поля Количество студентов...")
+
+            }
+            getDev() {
+                return this.students.filter(student => student.getSpecialtyCode() == 3).length;
+            }
+            getGroup(group) {
+                return console.log(this.students.filter(student => student.getGroupCode() == group));
+            }
+        }
+        let student1 = new Student("Anna", "Gritsenko", 18, "adress1", 2006, "ФИТ", 2, 7, 71231301);
+        let student2 = new Student("Olya", "Ivanova", 98, "adress2", 2005, "ФИТ", 2, 3, 73231302);
+        let student3 = new Student("Ilya", "Petrov", 19, "adress3", 2005, "ФИТ", 2, 3, 7321303);
+        let student4 = new Student("Ily", "Pet", 20, "adress4", 2004, "ФИТ", 2, 3, 7321304);
+        let fit = new Faculty("ФИТ", 10, 0);
+        fit.addStudent(student1);
+        fit.addStudent(student2);
+        fit.addStudent(student3);
+        fit.addStudent(student4);
+        console.log(fit.getDev());
+        fit.getGroup(3);
+    </script>
+</body>
+
+</html>

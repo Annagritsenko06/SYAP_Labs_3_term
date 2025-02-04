@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Run JS</title>
+</head>
+<body>
+    <script>
+        //1 задание
+let a = 5;
+let name = "Name";
+let i = 0;
+let double = 0.23;
+let result = 1/0;
+let answer = true;
+let no = null;
+// 2 задание
+const widthA = 45; 
+const heightA = 21; 
+const sideB = 5; 
+
+const squaresInWidth = Math.floor(widthA / sideB);
+const squaresInHeight = Math.floor(heightA / sideB);
+
+const totalSquares = squaresInWidth * squaresInHeight;
+console.log("Количество квадратов B, которые поместятся в четырехугольник A: " + totalSquares);
+//3 задание
+let i_2 = 2;
+let a_2 = ++i_2;
+let b = i_2++;
+console.log(a_2 == b)
+//4 задание
+
+let result1 = "Котик" === "котик" ? "Равны" : "Не равны";
+console.log(`"Котик" и "котик": ${result1}`);  
+
+let result2 = "Котик" === "китик" ? "Равны" : "Не равны";
+console.log(`"Котик" и "китик": ${result2}`); 
+
+let result3 = "Кот" === "Котик" ? "Равны" : "Не равны";
+console.log(`"Кот" и "Котик": ${result3}`);  
+
+let result4 = "Привет" === "Пока" ? "Равны" : "Не равны";
+console.log(`"Привет" и "Пока": ${result4}`);  
+let result5 = 73 == "53" ? "Равны" : "Не равны";
+console.log(`73 и "53": ${result5}`);  
+
+let result6 = false == 0 ? "Равны" : "Не равны";
+console.log(`false и 0: ${result6}`);  
+
+let result7 = 54 == true ? "Равны" : "Не равны";
+console.log(`54 и true: ${result7}`);  
+
+let result8 = 123 == false ? "Равны" : "Не равны";
+console.log(`123 и false: ${result8}`);  
+
+let result9 = true == "3" ? "Равны" : "Не равны";
+console.log(`true и "3": ${result9}`);  
+
+let result10 = 3 == "5мм" ? "Равны" : "Не равны";
+console.log(`3 и "5мм": ${result10}`);  
+
+let result11 = 8 == "-2" ? "Равны" : "Не равны";
+console.log(`8 и "-2": ${result11}`);  
+
+let result12 = 34 == "34" ? "Равны" : "Не равны";
+console.log(`34 и "34": ${result12}`);  
+
+let result13 = null == undefined ? "Равны" : "Не равны";
+console.log(`null и undefined: ${result13}`);  
+//5 
+
+const teacherFullName = "Белодед Николай Иванович";
+
+const userInput = prompt("Введите имя преподавателя:", ' ');
+
+const normalizedInput = userInput.toLowerCase();
+const normalizedTeacherName = teacherFullName.toLowerCase();
+
+if (normalizedTeacherName.includes(normalizedInput)) {
+    alert("Введенные данные верны.");
+} else {
+    alert("Имя не совпадает.");
+}
+
+//6
+const  positiveAnswer = "да";
+const negativeAnswer = "нет";
+const inputRus = prompt("Сдал ли студен экзамен по русскому???", ' ');
+const answerRus = inputRus.trim().toLowerCase();
+
+const mathInput = prompt("Сдал ли студен экзамен по математике???", ' ');
+const math = mathInput.trim().toLowerCase();
+
+const englishExam = prompt("Сдал ли студен экзамен по английскому???", ' ');
+const examAnswer = englishExam.trim().toLowerCase();
+
+if(positiveAnswer.includes(answerRus) && positiveAnswer.includes(math) && positiveAnswer.includes(examAnswer) ){
+    alert("Поздравляю!!! Студент переходит на следующий курс.");
+} else if(negativeAnswer.includes(answerRus) && negativeAnswer.includes(math) && negativeAnswer.includes(examAnswer))
+{ 
+   
+    alert("Студент будет отчислен...");
+} else {
+    alert("Студента ждет пересдача...");
+}
+//7
+console.log(true+true);
+console.log(0 + "5");
+console.log(5 + "мм");
+console.log(8/Infinity);
+console.log(9 * "\n9");
+console.log(null - 1);
+console.log("5" - 2);
+console.log("5px" - 3);
+console.log(true - 3);
+console.log(7 || 0);
+//8
+
+for (let i=1; i<=10; i++){
+    if (i%2===0){
+        console.log(i + 2);
+    } else {
+        console.log(i + "мм");
+    }
+}
+//9
+const daysOfWeek = {
+    1: "Понедельник",
+    2: "Вторник",
+    3: "Среда",
+    4: "Четверг",
+    5: "Пятница",
+    6: "Суббота",
+    7: "Воскресенье"
+};
+
+const dayNumber = prompt("Введите номер дня недели (1-7):");
+
+if (daysOfWeek[dayNumber]) {
+    alert(`Это ${daysOfWeek[dayNumber]}`);
+} else {
+    alert("Неверный номер дня. Введите число от 1 до 7.");
+}
+
+const daysOfWeekArray = ["", "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота", "Воскресенье"];
+
+const dayNumberArray = prompt("Введите номер дня недели (1-7):");
+
+
+if (dayNumberArray >= 1 && dayNumberArray <= 7) {
+    alert(`Это ${daysOfWeekArray[dayNumberArray]}`);
+} else {
+    alert("Неверный номер дня. Введите число от 1 до 7.");
+}
+//10
+function showParams(  second, third, first = " I like "){
+    third = prompt("Введите значение третьего параметра:");
+ return alert(first + second + third);
+}
+showParams("banana");
+//11
+let firstSide = 10;
+let secondSide = 20;
+function params(param1, param2){
+if (param1==param2){
+    return console.log(`Ответ:${param1 + param2}`);
+} else {
+    return console.log(`Ответ:${param1 * param2}`);
+}
+}
+   params(firstSide,secondSide);
+
+   let params2 = function(param1,param2){
+    if (param1==param2){
+    return console.log(`Ответ:${param1 + param2}`);
+} else {
+    return console.log(`Ответ:${param1 * param2}`);
+}
+   };
+   params2(firstSide,secondSide);
+let params3 = (param1,param2) => {
+    if (param1==param2){
+    return console.log(`Ответ:${param1 + param2}`);
+} else {
+    return console.log(`Ответ:${param1 * param2}`);
+}
+};
+params3(firstSide,secondSide);
+   </script>
+</body>
+</html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //1
+        //1 var
+        // function makeCounter() {
+        //     let currentCount = 1;
+        //     return function () {
+        //         return currentCount++;
+        //     };
+        // }
+        // let counter = makeCounter();
+        // alert(counter());//1
+        // alert(counter());//2
+        // alert(counter());//3
+        // let counter2 = makeCounter();
+        // alert(counter2());//1
+        //2 var
+        let currentCount = 1;
+        function makeCounter() {
+            return function () { 
+                return currentCount++;
+            };
+        }
+        let counter = makeCounter();
+        let counter2 = makeCounter();
+        alert(counter());//1
+        alert(counter());//2
+        alert(counter2());//3
+        alert(counter2());//4
+        //2
+        let square = (length) => (width) => (height) => length * width * height;
+        let func = square(5);
+        console.log(func(3)(4));
+        console.log(func(30)(48));
+        console.log(square(5)(3)(4));
+        //3
+        let x = 0;
+        let y = 0;
+        function* moveObject() {
+            while (true) {
+                let command = prompt("Введите команду").toLowerCase();
+                for (let i = 0; i < 10; i++) {
+                    switch (command) {
+                        case 'left':
+                            x -= 1;
+                            break;
+                        case 'right':
+                            x += 1;
+                            break;
+                        case 'up':
+                            y += 1;
+                            break;
+                        case 'down':
+                            y -= 1;
+                            break;
+                        default:
+                            console.log('Неправильная команда!');
+                            return;
+
+                    }
+                    console.log(`Координаты: x=${x}, y=${y}`);
+                }
+                
+                        
+                        yield {x,y};
+            }
+        }
+        let generator = moveObject();
+        while(true){
+            generator.next();
+        }
+        //4
+        
+        var globalVar = 10; 
+        let globalLet = 20; 
+        const globalConst = 30; 
+
+        function globalFunc() {
+            console.log('Это глобальная функция');
+        }
+
+        
+        console.log(window.globalVar); 
+        console.log(window.globalLet); 
+        console.log(window.globalConst); 
+        console.log(window.globalFunc); 
+
+        window.globalVar = 100;
+        console.log(globalVar); 
+
+        
+        window.globalFunc = function () {
+            console.log('Переопределенная глобальная функция');
+        };
+        globalFunc(); 
+        console.log(window.globalVar); 
+        console.log(window.globalFunc); 
+    </script>
+</body>
+
+</html>

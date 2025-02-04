@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //1 задание
+        function basicOperation(operation, value1, value2) {
+    let plus = '+';
+    let minus = '-';
+    let increase = '*';
+    let slash = '/';
+    if (operation.includes(plus)){
+       return value1 + value2;
+    } else if(operation.includes(minus)){
+        return value1 - value2;
+    } else if(operation.includes(increase)){
+        return value1 * value2;
+    } else if(operation.includes(slash)){
+        return value1 / value2;
+    }
+}
+    console.log( basicOperation('+', 5, 10)); 
+    console.log( basicOperation('-', 5, 10));
+    console.log( basicOperation('*', 5, 10));
+    console.log( basicOperation('/', 10, 2));
+        //2 задание
+        function sumCubes(n){
+            let sum = 0;
+            for(let i = 0; i<=n; i++){
+                sum += i ** 3;
+            }
+            return sum;
+        }
+    console.log(sumCubes(5));
+    //3 задание
+    let  array = [1,2,33,4,55,6,7,81];   
+    let sumOfElements = function(array){
+        let sum = 0;
+        for(let key of array){
+            sum += key;
+        }
+        return sum/array.length;
+       
+    }    
+    console.log(`Среднее аримметическое элементов массива:${sumOfElements(array)}`);
+    //4 задание
+    function reverseAlphabetOnly(str) {
+   
+    let filteredStr = str.replace(/[^a-zA-Z]/g, '');
+    console.log(filteredStr);
+    let reversedStr = filteredStr.split('').reverse().join('');
+
+    return reversedStr;
+    }
+
+    let inputString = "xaxa5555550xa3xa4xa";
+    console.log(reverseAlphabetOnly(inputString)); 
+    //5 задание
+    function makeNewString(n,s){
+        return  s.repeat(n);
+    }
+    console.log(makeNewString(4,"dog"));
+    //6 задание
+    let arrayOne = ["fff","rrr","ddd","hhh"];
+    let arrayTwo = ["yyy", "rrr","ppp","hhh"];
+   
+    function makeNewArray(arrayOne,arrayTwo){
+        return arrayOne.filter(item => !arrayTwo.includes(item));
+    }
+   console.log(makeNewArray( arrayOne, arrayTwo));
+    
+    </script>
+
+</body>
+</html>

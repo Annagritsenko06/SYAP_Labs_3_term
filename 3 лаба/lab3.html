@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //1
+       let array1 = [1, [1, 2, [3, 4]], [2, 4]];
+
+let flattenedArray = array1.reduce((acc, element) => {
+    if (Array.isArray(element)) {
+        return acc.concat(element.reduce((acc, el) =>  acc.concat(el), []));
+    } else {
+        return acc.concat(element);
+    }
+}, []);
+
+console.log(flattenedArray); 
+//2
+let array = [1, [1, 2, [3, 4]], [2, 4]];
+   function sumOfArray(array){
+   return array.reduce((acc,element) => {
+    if (Array.isArray(element)){
+       
+       return acc + sumOfArray(element);
+    }
+   else { return acc +element};
+   },0);
+}
+   console.log(`Сумма массива : ${sumOfArray(array)}`);
+   //3
+   let arrayOfStudents = [
+  { name: "Pavel", age: 19, groupId: 7 },
+  { name: "Lesha", age: 18, groupId: 7 },
+  { name: "Masha", age: 19, groupId: 8 },
+  { name: "Marina", age: 16, groupId: 8 }
+];
+
+function buildNewArray(arrayOfStudents) {
+  return arrayOfStudents.filter(student => student.age > 17).reduce((acc,student) => {
+     if(!acc[student.groupId]){
+        acc[student.groupId]=[];
+     }
+    
+      acc[student.groupId].push(student); 
+      return acc;
+  },{}); 
+}
+
+console.log(buildNewArray(arrayOfStudents));
+//4
+function differenceBetweenTotals(str){
+let total1 = str.split('').map(element => element.charCodeAt(0)).join('');
+let total2 = total1.replace(/[7]/g,'1');
+let num1 = BigInt(total1);
+let num2 = BigInt(total2);
+return num1 - num2;
+}
+let string = "Anna";
+console.log(differenceBetweenTotals(string));
+//5
+function makeNewObject(newObj,...arguments){
+
+return Object.assign(newObj,...arguments);
+}
+let newObj = {};
+let obj1 = {a:1, b:2};
+let obj2 = {c:3};
+let obj3 = {d:4};
+let obj4 = {a:3,c:3};
+console.log(makeNewObject(newObj,obj1,obj2));
+console.log(makeNewObject(newObj,obj1,obj4));
+console.log(makeNewObject(newObj,obj1,obj2,obj3));
+//6
+function buildPyramid(numberOfFloor){
+    let array = [];
+    let element = "*";
+for(let i=1; i <=numberOfFloor; i++){
+    let spaces = " ".repeat(numberOfFloor - i);
+       let stars = element.repeat(i*2-1);
+       array.push(spaces +stars);
+
+}
+return array.join("\n");
+}
+let answer = prompt('Введите число уровней башни:');
+
+console.log(buildPyramid(parseInt(answer)));
+
+    </script>
+</body>
+</html>

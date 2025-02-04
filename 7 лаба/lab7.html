@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //1
+        let person = {
+            name: "Anna",
+            age: 30,
+            greet() {
+                console.log(`Привет,я ${this.name}`);
+            },
+            ageAfterYears(years) {
+                return this.age + years;
+            }
+        }
+        console.log(person.ageAfterYears(5));
+        person.greet();
+        //2
+        let car = {
+            model: "Camry",
+            year: 2000,
+            getInfo() {
+                console.log(`Information about car: model - ${this.model}, year - ${this.year}`);
+            }
+        }
+        car.getInfo();
+        //3
+        function Book(title, author) {
+            this.title = title;
+            this.author = author;
+            this.getTitle = function () {
+                console.log(`Information about book ` + this.title)
+            };
+            this.getAuthor = function () {
+                console.log(`Information about book ` + this.author)
+            }
+        }
+        let skazka = new Book("Сказка", "А.А.А");
+        skazka.getTitle();
+        skazka.getAuthor();
+        let poema = new Book("Поэма", "В.В.В.");
+        poema.getTitle();
+        poema.getAuthor();
+        //4
+        let team = {
+            players: [
+                { name: "player1", age: 21, number: 77 },
+                { name: "player2", age: 19, number: 55 },
+                { name: "player3", age: 23, number: 9 }],
+            infoAboutPlayer: function () {
+                this.players.forEach(player => {
+                    console.log(`Имя игрока: ${player.name},возраст: ${player.age},номер игрока: ${player.number}`);
+                })
+            }
+        }
+        team.infoAboutPlayer();
+        //5
+        const counter = (function () {
+            let count = 0;
+            return {
+                increment() {
+                    count++;
+                    return count;
+                },
+                decrement() {
+                    count--;
+                    return count;
+                },
+                getCount() {
+                    return count;
+                }
+            }
+        }
+        )();
+        console.log(counter.increment());
+        console.log(counter.increment());
+        console.log(counter.decrement());
+        console.log(counter.getCount());
+        //6
+        let item = {
+            price: 777
+        };
+        Object.defineProperty(item, "price", {
+            value: 777,
+            writable: true,
+            enumerable: true,
+            configurable: true
+        });
+        console.log(item.price);
+        item.price = 9;
+        console.log(`Обновленное значение - ${item.price}`);
+        delete item.price;
+        console.log(item.price);
+        Object.defineProperty(item, "price", {
+            value: 777,
+            writable: false,
+            enumerable: true,
+            configurable: false
+        });
+        console.log(item.price);
+        item.price = 900;//ошибка
+        delete item.price;//ошибка
+        console.log(item.price);
+        //7
+        let circle = {
+            radius: 18,
+            get square() {
+                let S = 3.14 * (this.radius ** 2);
+                return S;
+            },
+            get readRadious() {
+                return this.radius;
+            },
+            set readRadious(value) {
+                this.radius = value;
+            }
+        };
+        console.log(circle.square);
+        console.log(circle.readRadious);
+        circle.readRadious = 0;
+        console.log(circle.readRadious);
+        //8
+        let Car = {
+            make: "China",
+            model:"polo",
+            year:2000
+        }
+        Object.defineProperties(Car,{
+            make:{value:"China",writable:true,enumerable:true,configurable:true},
+            model:{value:"polo",writable:true,enumerable:true,configurable:true},
+            year:{value:2000,writable:true,enumerable:true,configurable:true},
+        });
+       console.log( Object.getOwnPropertyDescriptors(Car));
+       Object.defineProperties(Car,{
+            make:{value:"China",writable:false,enumerable:false,configurable:false},
+            model:{value:"polo",writable:false,enumerable:false,configurable:false},
+            year:{value:2000,writable:false,enumerable:false,configurable:false},
+        });
+        console.log( `Обновленные дискрипторы свойств:`);
+        console.log( Object.getOwnPropertyDescriptors(Car));
+        //9
+        let obj = {
+         array: [3,2,4]
+        };
+        Object.defineProperty(obj,'sum',{
+            get(){
+                let summ=0;
+                for(key of this.array){
+                    summ+=key;
+                }
+                return summ;
+            },
+            configurable:false
+        });
+       //10
+       let rectangle ={
+        width:23,
+        height:4,
+        get squareOfRectangle(){
+            let S= 0;
+            S = this.height*this.width;
+            return S;
+        },
+        get gstter(){
+            return `Ширина - ${this.width}, высота - ${this.height}`;
+        },
+        set gstter(values) {
+        if (Array.isArray(values) && values.length === 2) {
+            this.width = values[0]; 
+            this.height = values[1]; 
+        } else {
+            console.error("Необходимо передать массив из двух чисел");
+        }
+    }
+       }
+       console.log(rectangle.squareOfRectangle);
+       console.log(rectangle.gstter);
+       rectangle.gstter = [3,8];
+       console.log(rectangle.gstter);
+       //11
+       let user ={
+        firstName:"Anna",
+        lastName:"Gritsenkko",
+        get fullName(){
+            return `Имя: ${this.firstName},Фамилия: ${this.lastName}`;
+        },
+        set fullName(value){
+            [this.firstName,this.lastName]= value.split(' ');
+        }
+           }
+           console.log(user.fullName);
+           user.fullName = "Lena Ivanova";
+           console.log(user.fullName);
+           </script>
+</body>
+
+</html>

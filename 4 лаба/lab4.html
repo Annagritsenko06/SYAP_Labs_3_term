@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab4</title>
+</head>
+<body>
+    <script>
+//1
+        let set = new Set(["молоко", "творог", "кефир","сыр","йогурт","сметана"]);
+        function addElement(_set,element){
+            return _set.add(element);
+        }
+        function deleteElement(_set,element){
+            return _set.delete(element);
+        }
+        function findElement(_set,element){
+            if( _set.has(element)){return console.log("Элемент принадлежит множеству");}
+            else return console.log("Элемент не принадлежит множеству");
+        }
+        addElement(set,"nrvnrvnr");
+        for (let value of set) console.log(value);
+        deleteElement(set,"nrvnrvnr" );
+        for (let value of set) console.log(value);
+        findElement(set,"молоко");
+        set.size;
+//2
+class Student {
+    constructor(id, group, name) {
+        this.id = id;        
+        this.group = group;   
+        this.name = name;    
+    }   
+    toString() {
+        return `${this.id} - ${this.name} (Группа: ${this.group})`;
+    }
+}
+let students = new Set();
+
+function addStudent(id, group, name) {
+    const student = new Student(id, group, name);
+    if (!students.has(student)) {
+        students.add(student);
+    } else {
+        console.log("Студент с таким номером зачетки уже существует.");
+    }
+}
+
+function deleteStudentByNumber(number){
+
+       for(let student of students) {
+        if(student.id===number){
+        students.delete(student);
+         console.log(`Студент с номером зачетки ${number} удален.`);
+         return;
+       }
+    }
+}
+
+function filterStudents(group){
+    let filteredStudents = [...students].filter(student => student.group===group)
+        console.log(`Студенты из группы ${group}:`);
+    filteredStudents.forEach(student => console.log(student.toString()));
+    return filteredStudents;
+    
+}
+function sortById() {
+    const sorted = [...students].sort((a, b) => a.id - b.id);
+    console.log("Список студентов, отсортированный по номеру зачетки:");
+    sorted.forEach(student => console.log(student.toString()));
+    return sorted;
+}
+
+addStudent(101, "A", "Иванов Иван Иванович");
+addStudent(103, "A", "Смирнов Семен Сидорович");
+addStudent(102, "B", "Петров Дмитрий Петрович");
+addStudent(333, "A", "Гриценко Анна Александровна");
+deleteStudentByNumber(101);
+for (let value of students) console.log(value);
+
+filterStudents("A");
+sortById();
+//3
+let map = new Map();
+
+function addProduct(id, name, quantity, price) {
+    if (map.has(id)) {
+        console.log(`Товар id ${id} уже есть в корзине.`);
+    } else {
+        map.set(id, { name, quantity, price });
+        console.log(`Товар "${name}" добавлен в корзину.`);
+    }
+}
+
+function deleteT(id){
+     if (map.has(id)) {
+        map.delete(id);
+        console.log(`Товар id ${id} удален из корзины.`);
+    } else {
+        console.log(`Товар id ${id} не найден.`);
+    }
+}
+function deleteByName(name){
+    
+    const idsToRemove = [];
+    for (let [id, product] of map.entries()) {
+        if (product.name === name) {
+            idsToRemove.push(id);
+        }
+    }
+    idsToRemove.forEach(id => {
+        map.delete(id);
+        console.log(`Товар "${name}"  id ${id} удален из корзины.`);
+    });
+}
+function updateQuality(id,newQuality){
+    if(map.has(id)){
+        let product = map.get(id);
+        product.quantity=newQuality;
+        map.set(id,product);
+    }
+   
+}
+function updatePrice(id,newPrice){
+    if(map.has(id)){
+        let product = map.get(id);
+        product.price=newPrice;
+        map.set(id,product);
+    }
+}
+function calculateTotalprice(){
+    let total=0;
+    for (let product of map.values()){
+        total+=product.quantity*product.price;
+    }
+    console.log(`Общая стоимость товаров в корзине: ${total}`);
+    return total;
+}
+
+function showMap(){
+    for (let value of map) console.log(value);
+}
+
+addProduct(11,"товар1",12,123);
+addProduct(12,"товар2",33,55);
+addProduct(15,"товар3",9,89)
+addProduct(19,"товар4",67,12);
+addProduct(21,"товар5",90,8);
+addProduct(88,"товар1",12,123);
+addProduct(20,"товар6",12,45);
+addProduct(55,"товар1",57,663);
+
+deleteT(11);
+showMap();
+console.log("---------");
+deleteByName("товар1");
+showMap();
+updateQuality(21,0);
+console.log("---------");
+showMap();
+console.log("---------");
+updatePrice(20, 15);
+showMap();
+console.log(map.size);
+calculateTotalprice();
+//4
+
+let cache = new WeakMap();
+function cachedFunction(obj) {
+    
+    if (cache.has(obj)) {
+        console.log("Получаем результат из кэша.");
+        return cache.get(obj); 
+    }
+    console.log("Считаем хэш для obj...");
+    let result = SecFunction(obj); 
+    cache.set(obj, result);
+    return result;
+}
+
+function SecFunction(obj) {
+    return obj.value * 2;
+}
+
+
+let obj1 = { value: 10 };
+let obj2 = { value: 20 };
+
+console.log(cachedFunction(obj1)); 
+
+console.log(cachedFunction(obj1)); 
+
+console.log(cachedFunction(obj2)); 
+
+    </script>
+</body>
+</html>

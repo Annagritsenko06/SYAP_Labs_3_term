@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 6</title>
+</head>
+
+<body>
+    <script>
+        //задание1
+        const numbers = [1, 2, 3, 4, 5];
+        const [x] = numbers;
+
+        console.log(x);
+
+        //задание2
+        const user = {
+            name: 'Anna',
+            age: 18
+        };
+
+        const admin = {
+            ...user,
+            surname: 'Gritsenko',
+            job: 'developer',
+        };
+
+        console.log(admin);
+
+        //задание3
+        let store = {
+            state: { // 1 уровень
+                profilePage: { // 2 уровень
+                    posts: [// 3 уровень
+                        { id: 1, message: 'Hi', likesCount: 12 },
+                        { id: 2, message: 'By', likesCount: 1 },
+                    ],
+                    newPostText: 'About me',
+                },
+                dialogsPage: {
+                    dialogs: [
+                        { id: 1, name: 'Valera' },
+                        { id: 2, name: 'Andrey' },
+                        { id: 3, name: 'Sasha' },
+                        { id: 4, name: 'Viktor' },
+                    ],
+                    messages: [
+                        { id: 1, message: 'hi' },
+                        { id: 2, message: 'hi hi' },
+                        { id: 3, message: 'hi hi hi' },
+                    ],
+                },
+
+                sidebar: [],
+            },
+        }
+        const {
+            state: {
+                profilePage: {
+                    posts
+                }
+            }
+        } = store;
+
+        posts.forEach(post => console.log(post.likesCount));
+
+        const {
+            state: {
+                dialogsPage: { dialogs, messages },
+            },
+        } = store;
+
+        const evenDialogs = dialogs.filter(dialog => dialog.id % 2 === 0);
+        console.log('Пользователи с четными id:', evenDialogs);
+
+        const updatedMessages = messages.map(msg => ({
+            ...msg,
+            message: 'Hello user',
+        }));
+        console.log('Обновленные сообщения:', updatedMessages);
+
+        //задание4
+        let tasks = [
+            { id: 1, title: "HTML&CSS", isDone: true },
+            { id: 2, title: "JS", isDone: true },
+            { id: 3, title: "ReactJS", isDone: false },
+            { id: 4, title: "Rest API", isDone: false },
+            { id: 5, title: "GraphQL", isDone: false },
+        ]
+
+        let newTask = { id: 6, title: "TypeScript", isDone: true };
+        let updatedTasks = [...tasks, newTask];
+
+        console.log(updatedTasks);
+
+        //задание5
+        function sumValues(x, y, z) {
+            return x + y + z;
+        }
+        const nums = [1, 2, 3];
+        const result = sumValues(...nums);
+
+        console.log(result); 
+    </script>
+</body>
+
+</html>

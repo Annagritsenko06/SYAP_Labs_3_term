@@ -1,0 +1,17 @@
+ let array1 = [1,[1,2,[3,4]],[2,4]];
+        let array2 = [];
+        function buildNewarray(array){
+       return array.reduce((newArray,element) => {
+        if(Array.isArray(element)){
+          return newArray.concat(buildNewarray(element));
+        }
+        else if(Number.isInteger(element)){
+           return newArray.concat(element);
+        }
+        return newArray;
+       },[]);
+    }
+   array2 = buildNewarray(array1);
+       array2.forEach((elemen) => {
+        console.log(elemen);
+       });
