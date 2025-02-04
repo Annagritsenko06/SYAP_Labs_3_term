@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        class Sudoku {
+    constructor() {
+        this.board = this.createEmptyBoard();
+    }
+
+    createEmptyBoard() {
+        return Array.from({ length: 9 }, () => Array(9).fill(0));
+    }
+
+    resetBoard() {
+        this.board = this.createEmptyBoard();
+    }
+
+    checkRow(row) {
+        const seen = new Set();
+        for (let num of this.board[row]) {
+            if (num !== 0) {
+                if (seen.has(num)) {
+                    console.log(`Ошибка в строке: ${row + 1}`);
+                    return true;
+                }
+                seen.add(num);
+            }
+        }
+        return false;
+    }
+
+    checkColumn(col) {
+        const seen = new Set();
+        for (let row = 0; row < 9; row++) {
+            const num = this.board[row][col];
+            if (num !== 0) {
+                if (seen.has(num)) {
+                    console.log(`Ошибка в столбце: ${col + 1}`);
+                    return true;
+                }
+                seen.add(num);
+            }
+        }
+        return false;
+    }
+
+ 
+    checkSquare(row, col) {
+        const seen = new Set();
+        const startRow = Math.floor(row / 3) * 3;
+        const startCol = Math.floor(col / 3) * 3;
+
+        for (let r = startRow; r < startRow + 3; r++) {
+            for (let c = startCol; c < startCol + 3; c++) {
+                const num = this.board[r][c];
+                if (num !== 0) {
+                    if (seen.has(num)) {
+                        console.log(`Ошибка в квадрате: (${Math.floor(startRow / 3) + 1}, ${Math.floor(startCol / 3) + 1})`);
+                        return true;
+                    }
+                    seen.add(num);
+                }
+            }
+        }
+        return false;
+    }
+
+
+    checkBoard() {
+        let hasError = false;
+        for (let i = 0; i < 9; i++) {
+            if (this.checkRow(i)) hasError = true;
+            if (this.checkColumn(i)) hasError = true;
+        }
+        for (let i = 0; i < 9; i += 3) {
+            for (let j = 0; j < 9; j += 3) {
+                if (this.checkSquare(i, j)) hasError = true;
+            }
+        }
+        return hasError;
+    }
+
+
+    generateCompletedBoard() {
+       
+        this.board = this.createEmptyBoard();
+       
+        for (let row = 0; row < 9; row++) {
+            for (let col = 0; col < 9; col++) {
+                this.board[row][col] = (row * 3 + Math.floor(row / 3) + col) % 9 + 1; 
+            }
+        }
+    }
+
+   
+    printBoard() {
+        console.log(this.board.map(row => row.join(' ')).join('\n'));
+    }
+}
+
+
+const sudoku = new Sudoku();
+sudoku.generateCompletedBoard();
+sudoku.printBoard();
+console.log("Ошибки в доске:", sudoku.checkBoard());
+    </script>
+</body>
+</html>

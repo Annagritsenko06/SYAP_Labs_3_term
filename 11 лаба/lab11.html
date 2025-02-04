@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        class Task {
+            constructor(id, name, state) {
+                this.id=id;
+                this.name=name;
+                this.state=false;
+            }
+            changeName(newName){
+                this.name=newName;
+                console.log(`Имя было изменено на ${newName}`);
+            }
+            changeState(){
+                this.state=!this.state;
+                console.log(`Состояние задачи было обновлено `);
+            }
+        }
+        class Todolist{
+            constructor(id,name){
+                this.id=id;
+                this.name=name;
+                this.tasks=[];
+            }
+            addTask(newTask){
+                this.tasks.push(newTask);
+            }
+            filterTasks(completed){
+                return this.tasks.filter(task => task.state===completed)
+            }
+
+        }
+        const personalTodolist = new Todolist(1, "Личный список дел");
+const workTodolist = new Todolist(2, "Рабочий список дел");
+
+const task1 = new Task(1, "Купить продукты");
+const task2 = new Task(2, "Закончить проект");
+const task3 = new Task(3, "Сходить в спортзал");
+
+
+personalTodolist.addTask(task1);
+personalTodolist.addTask(task3);
+workTodolist.addTask(task2);
+
+task1.changeState(); 
+
+const completedTasks = personalTodolist.filterTasks(true);
+const incompleteTasks = personalTodolist.filterTasks(false);
+
+console.log("Выполненные задачи в личном списке:", completedTasks);
+console.log("Невыполненные задачи в личном списке:", incompleteTasks);
+task2.changeState();
+console.log(task2.state);
+
+    </script>
+</body>
+
+</html>

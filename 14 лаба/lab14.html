@@ -1,0 +1,227 @@
+<!DOCTYPE html> 
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Судоку</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0;
+            padding: 20px;
+        }
+        #sudoku-grid {
+            display: grid;
+            grid-template-columns: repeat(9, 40px);
+            grid-gap: 5px;
+            margin-bottom: 20px;
+        }
+        .cell {
+            width: 40px;
+            height: 40px;
+            text-align: center;
+            font-size: 24px;
+            border: 1px solid #ccc;
+        }
+        .error {
+            background-color: red;
+        }
+        .correct {
+            background-color: yellow;
+        }
+        button {
+            margin: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+
+<div id="sudoku-grid"></div>
+<button onclick="generateNewBoard()">Новое поле</button>
+<button onclick="checkBoard()">Проверить поле</button>
+<button onclick="generateSolvedBoard()">Генерировать решение</button>
+
+<script>
+    class Sudoku {
+        constructor() {
+            this.board = this.createEmptyBoard();
+        }
+
+        createEmptyBoard() {
+            return Array.from({ length: 9 }, () => Array(9).fill(0));
+        }
+
+        resetBoard() {
+            this.board = this.createEmptyBoard();
+        }
+
+        updateBoardFromInputs() {
+            const cells = document.querySelectorAll('.cell');
+            cells.forEach((cell, index) => {
+                const value = parseInt(cell.value) || 0;
+                const row = Math.floor(index / 9);
+                const col = index % 9;
+                this.board[row][col] = value;
+            });
+        }
+
+        checkRow(row) {
+            const seen = new Set();
+            for (let num of this.board[row]) {
+                if (num !== 0) {
+                    if (seen.has(num)) return true;
+                    seen.add(num);
+                }
+            }
+            return false;
+        }
+
+        checkColumn(col) {
+            const seen = new Set();
+            for (let row = 0; row < 9; row++) {
+                const num = this.board[row][col];
+                if (num !== 0) {
+                    if (seen.has(num)) return true;
+                    seen.add(num);
+                }
+            }
+            return false;
+        }
+
+        checkSquare(row, col) {
+            const seen = new Set();
+            const startRow = Math.floor(row / 3) * 3;
+            const startCol = Math.floor(col / 3) * 3;
+
+            for (let r = startRow; r < startRow + 3; r++) {
+                for (let c = startCol; c < startCol + 3; c++) {
+                    const num = this.board[r][c];
+                    if (num !== 0) {
+                        if (seen.has(num)) return true;
+                        seen.add(num);
+                    }
+                }
+            }
+            return false;
+        }
+
+        checkBoard() {
+            let hasError = false;
+            for (let i = 0; i < 9; i++) {
+                if (this.checkRow(i)) hasError = true;
+                if (this.checkColumn(i)) hasError = true;
+            }
+            for (let i = 0; i < 9; i += 3) {
+                for (let j = 0; j < 9; j += 3) {
+                    if (this.checkSquare(i, j)) hasError = true;
+                }
+            }
+            return hasError;
+        }
+
+        generateCompletedBoard() {
+            this.board = this.createEmptyBoard();
+            for (let row = 0; row < 9; row++) {
+                for (let col = 0; col < 9; col++) {
+                    this.board[row][col] = (row * 3 + Math.floor(row / 3) + col) % 9 + 1;
+                }
+            }
+            renderBoard();
+        }
+
+        fillRandomCells() {
+    const filledCells = new Set();
+    const isValidPlacement = (row, col, num) => {
+        for (let c = 0; c < 9; c++) {
+            if (this.board[row][c] === num) return false;
+        }
+        for (let r = 0; r < 9; r++) {
+            if (this.board[r][col] === num) return false;
+        }
+        const startRow = Math.floor(row / 3) * 3;
+        const startCol = Math.floor(col / 3) * 3;
+        for (let r = startRow; r < startRow + 3; r++) {
+            for (let c = startCol; c < startCol + 3; c++) {
+                if (this.board[r][c] === num) return false;
+            }
+        }
+        return true;
+    };
+
+    while (filledCells.size < 40) {
+        const row = Math.floor(Math.random() * 9);
+        const col = Math.floor(Math.random() * 9);
+        if (this.board[row][col] === 0) {
+            const num = Math.floor(Math.random() * 9) + 1;
+            if (isValidPlacement(row, col, num)) {
+                this.board[row][col] = num;
+                filledCells.add(`${row},${col}`);
+            }
+        }
+    }
+}
+    }
+
+    const sudoku = new Sudoku();
+    const grid = document.getElementById('sudoku-grid');
+
+    function createCell(value = '') {
+        const cell = document.createElement('input');
+        cell.className = 'cell';
+        cell.type = 'text';
+        cell.value = value !== 0 ? value : '';
+        cell.maxLength = 1;
+        cell.oninput = (e) => {
+            e.target.value = e.target.value.replace(/[^1-9]/g, '');
+        };
+        return cell;
+    }
+
+    function renderBoard() {
+        grid.innerHTML = '';
+        sudoku.board.forEach(row => {
+            row.forEach(value => {
+                grid.appendChild(createCell(value));
+            });
+        });
+    }
+
+    function generateNewBoard() {
+        sudoku.resetBoard();
+        sudoku.fillRandomCells();
+        renderBoard();
+    }
+
+    function checkBoard() {
+        sudoku.updateBoardFromInputs();
+        const hasError = sudoku.checkBoard();
+        const cells = document.querySelectorAll('.cell');
+        cells.forEach(cell => cell.classList.remove('error', 'correct'));
+
+        if (hasError) {
+            cells.forEach((cell, index) => {
+                const row = Math.floor(index / 9);
+                const col = index % 9;
+                if (sudoku.checkRow(row) || sudoku.checkColumn(col) || sudoku.checkSquare(row, col)) {
+                    cell.classList.add('error');
+                }
+            });
+        } else {
+            cells.forEach(cell => cell.classList.add('correct'));
+        }
+    }
+    function generateSolvedBoard() {
+        sudoku.generateCompletedBoard();
+        renderBoard();
+    }
+
+    generateNewBoard();
+</script>
+
+</body>
+</html>
